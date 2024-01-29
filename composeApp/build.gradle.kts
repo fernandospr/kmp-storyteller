@@ -1,14 +1,16 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.gradleBuildConfig)
 }
 
 kotlin {
+
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -87,4 +89,12 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
+}
+
+buildConfig {
+    val properties = Properties()
+    properties.load(project.rootProject.file("local.properties").reader())
+    val geminiApiKey = properties.getProperty("gemini.api_key")
+
+    buildConfigField("GEMINI_API_KEY", geminiApiKey)
 }
