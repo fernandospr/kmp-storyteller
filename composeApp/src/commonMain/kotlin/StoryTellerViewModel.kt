@@ -10,14 +10,17 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
-data class StoryTellerUiState(val story: String)
+sealed class StoryTellerUiState {
+    data class Loading(val uiDescription: String) : StoryTellerUiState()
+    data object Idle : StoryTellerUiState()
+    data class Story(val story: String) : StoryTellerUiState()
+}
 
 class StoryTellerViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(StoryTellerUiState("..."))
+    private val _uiState = MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.Idle)
     val uiState = _uiState.asStateFlow()
 
     private val httpClient = HttpClient {
@@ -28,18 +31,21 @@ class StoryTellerViewModel : ViewModel() {
         }
     }
 
-    fun newStory(animal: String) {
+    fun newStory(uiDescription: String, character: String) {
         viewModelScope.launch {
-            val story = getStory(animal)
-            _uiState.update {
-                it.copy(story = story)
-            }
+            _uiState.value = StoryTellerUiState.Loading(uiDescription)
+            val story = getStory(character)
+            _uiState.value = StoryTellerUiState.Story(story)
         }
     }
 
-    private suspend fun getStory(animal: String): String {
+    fun reset() {
+        _uiState.value = StoryTellerUiState.Idle
+    }
+
+    private suspend fun getStory(character: String): String {
         val prompt = "Write a bedtime story of less than 100 words for children with a " +
-                "$animal, it should start with Once upon a time"
+                "$character, it should start with Once upon a time"
 
         val response = httpClient.post(
             "https://generativelanguage.googleapis.com" +
