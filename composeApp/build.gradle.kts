@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.gradleBuildConfig)
+    alias(libs.plugins.mokoResources)
 }
 
 kotlin {
@@ -31,11 +32,18 @@ kotlin {
     }
     
     sourceSets {
-        
-        androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.ktor.client.okhttp)
+        // Required for moko-resources to work
+        applyDefaultHierarchyTemplate()
+
+        androidMain {
+            dependencies {
+                implementation(libs.compose.ui.tooling.preview)
+                implementation(libs.androidx.activity.compose)
+                implementation(libs.ktor.client.okhttp)
+            }
+
+            // Required for moko-resources to work
+            dependsOn(commonMain.get())
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -53,6 +61,7 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.moko.mvvm.core)
             implementation(libs.moko.mvvm.compose)
+            implementation(libs.moko.resources.compose)
         }
     }
 }
@@ -97,4 +106,8 @@ buildConfig {
     val geminiApiKey = properties.getProperty("gemini.api_key")
 
     buildConfigField("GEMINI_API_KEY", geminiApiKey)
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "com.github.fernandospr.storyteller"
 }
