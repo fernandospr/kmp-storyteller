@@ -12,7 +12,7 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-class GeminiStoryTellerRepository : StoryTellerRepository {
+class GeminiStoryTellerRepository(private val promptPlaceholder: String) : StoryTellerRepository {
     private val httpClient = HttpClient {
         install(ContentNegotiation) {
             json(Json {
@@ -21,7 +21,7 @@ class GeminiStoryTellerRepository : StoryTellerRepository {
         }
     }
 
-    override suspend fun getStory(promptPlaceholder: String, character: String): String {
+    override suspend fun getStory(character: String): String {
         val prompt = promptPlaceholder.replace("%s", character)
 
         val response = httpClient.post(

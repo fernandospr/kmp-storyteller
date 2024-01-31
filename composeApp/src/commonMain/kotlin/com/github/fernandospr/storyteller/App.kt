@@ -12,12 +12,12 @@ import dev.icerock.moko.resources.compose.stringResource
 @Composable
 fun App() {
     MaterialTheme {
+        val prompt = stringResource(MR.strings.prompt)
         val storyTellerViewModel = getViewModel(Unit, viewModelFactory {
-            StoryTellerViewModel(GeminiStoryTellerRepository())
+            StoryTellerViewModel(GeminiStoryTellerRepository(prompt))
         })
         val uiState by storyTellerViewModel.uiState.collectAsState()
         val characters = getCharacters()
-        val prompt = stringResource(MR.strings.prompt)
 
         when (val state = uiState) {
             is StoryTellerUiState.LoadingStory -> LoadingStoryScreen(state.uiDescription)
@@ -30,7 +30,7 @@ fun App() {
             is StoryTellerUiState.CharacterSelection -> CharacterSelectionScreen(
                 characters
             ) { character ->
-                storyTellerViewModel.newStory(prompt, character)
+                storyTellerViewModel.newStory(character)
             }
 
             is StoryTellerUiState.ErrorLoadingStory -> ErrorLoadingStoryScreen(state.uiDescription) {

@@ -18,11 +18,11 @@ class StoryTellerViewModel(private val repository: StoryTellerRepository) : View
         MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.CharacterSelection)
     val uiState = _uiState.asStateFlow()
 
-    fun newStory(promptPlaceholder: String, character: Character) {
+    fun newStory(character: Character) {
         viewModelScope.launch {
             _uiState.value = StoryTellerUiState.LoadingStory(character.uiDescription)
             try {
-                val story = repository.getStory(promptPlaceholder, character.name)
+                val story = repository.getStory(character.name)
                 _uiState.value = StoryTellerUiState.Story(character.uiDescription, story)
             } catch (ex: Exception) {
                 _uiState.value = StoryTellerUiState.ErrorLoadingStory(character.uiDescription)
