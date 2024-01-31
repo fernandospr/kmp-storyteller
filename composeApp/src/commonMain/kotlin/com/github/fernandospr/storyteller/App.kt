@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
+import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun App() {
@@ -13,6 +14,7 @@ fun App() {
         val storyTellerViewModel = getViewModel(Unit, viewModelFactory { StoryTellerViewModel() })
         val uiState by storyTellerViewModel.uiState.collectAsState()
         val characters = getCharacters()
+        val prompt = stringResource(MR.strings.prompt)
 
         when (val state = uiState) {
             is StoryTellerUiState.LoadingStory -> LoadingStoryScreen(state.uiDescription)
@@ -25,21 +27,22 @@ fun App() {
             is StoryTellerUiState.CharacterSelection -> CharacterSelectionScreen(
                 characters
             ) { character ->
-                storyTellerViewModel.newStory(character)
+                storyTellerViewModel.newStory(prompt, character)
             }
         }
     }
 }
 
+@Composable
 private fun getCharacters() = listOf(
-    Character("dog", "🐶"),
-    Character("cat", "🐱"),
-    Character("monkey", "🐵"),
-    Character("lion", "🦁"),
-    Character("duck", "🦆"),
-    Character("rabbit", "🐰"),
-    Character("cow", "🐮"),
-    Character("pig", "🐷"),
-    Character("horse", "🐴"),
-    Character("frog", "🐸"),
+    Character(name = stringResource(MR.strings.dog_name), uiDescription = "🐶"),
+    Character(name = stringResource(MR.strings.cat_name), uiDescription = "🐱"),
+    Character(name = stringResource(MR.strings.monkey_name), uiDescription = "🐵"),
+    Character(name = stringResource(MR.strings.lion_name), uiDescription = "🦁"),
+    Character(name = stringResource(MR.strings.duck_name), uiDescription = "🦆"),
+    Character(name = stringResource(MR.strings.rabbit_name), uiDescription = "🐰"),
+    Character(name = stringResource(MR.strings.cow_name), uiDescription = "🐮"),
+    Character(name = stringResource(MR.strings.pig_name), uiDescription = "🐷"),
+    Character(name = stringResource(MR.strings.horse_name), uiDescription = "🐴"),
+    Character(name = stringResource(MR.strings.frog_name), uiDescription = "🐸"),
 )

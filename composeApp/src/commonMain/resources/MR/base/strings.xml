@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="prompt">Write a bedtime story of less than 100 words for children with a %s, it should start with Once upon a time</string>
+    <string name="dog_name">dog</string>
+    <string name="cat_name">cat</string>
+    <string name="monkey_name">monkey</string>
+    <string name="lion_name">lion</string>
+    <string name="duck_name">duck</string>
+    <string name="rabbit_name">rabbit</string>
+    <string name="cow_name">cow</string>
+    <string name="pig_name">pig</string>
+    <string name="horse_name">horse</string>
+    <string name="frog_name">frog</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="prompt">Escribe un cuento de niños para ir a dormir de menos de 100 palabras con un %s, debería comenzar con Había una vez y terminar con Y colorín colorado este cuento se ha acabado</string>
+    <string name="dog_name">perro</string>
+    <string name="cat_name">gato</string>
+    <string name="monkey_name">mono</string>
+    <string name="lion_name">león</string>
+    <string name="duck_name">pato</string>
+    <string name="rabbit_name">conejo</string>
+    <string name="cow_name">vaca</string>
+    <string name="pig_name">chancho</string>
+    <string name="horse_name">caballo</string>
+    <string name="frog_name">rana</string>
+</resources>

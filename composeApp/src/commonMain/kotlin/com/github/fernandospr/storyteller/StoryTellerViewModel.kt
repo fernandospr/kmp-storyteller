@@ -33,10 +33,10 @@ class StoryTellerViewModel : ViewModel() {
         }
     }
 
-    fun newStory(character: Character) {
+    fun newStory(promptPlaceholder: String, character: Character) {
         viewModelScope.launch {
             _uiState.value = StoryTellerUiState.LoadingStory(character.uiDescription)
-            val story = getStory(character.name)
+            val story = getStory(promptPlaceholder, character.name)
             _uiState.value = StoryTellerUiState.Story(character.uiDescription, story)
         }
     }
@@ -45,9 +45,8 @@ class StoryTellerViewModel : ViewModel() {
         _uiState.value = StoryTellerUiState.CharacterSelection
     }
 
-    private suspend fun getStory(character: String): String {
-        val prompt = "Write a bedtime story of less than 100 words for children with a " +
-                "$character, it should start with Once upon a time"
+    private suspend fun getStory(promptPlaceholder: String, character: String): String {
+        val prompt = promptPlaceholder.replace("%s", character)
 
         val response = httpClient.post(
             "https://generativelanguage.googleapis.com" +
