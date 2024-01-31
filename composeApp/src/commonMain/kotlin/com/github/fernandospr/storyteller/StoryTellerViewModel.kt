@@ -1,3 +1,5 @@
+package com.github.fernandospr.storyteller
+
 import StoryTeller.composeApp.BuildConfig
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import io.ktor.client.HttpClient

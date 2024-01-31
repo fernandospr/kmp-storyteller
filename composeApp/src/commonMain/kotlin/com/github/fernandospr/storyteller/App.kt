@@ -1,3 +1,5 @@
+package com.github.fernandospr.storyteller
+
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

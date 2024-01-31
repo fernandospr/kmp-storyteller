@@ -1,3 +1,5 @@
+package com.github.fernandospr.storyteller
+
 import kotlinx.serialization.Serializable
 
 @Serializable
