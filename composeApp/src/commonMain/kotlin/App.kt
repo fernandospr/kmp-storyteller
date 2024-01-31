@@ -10,16 +10,34 @@ fun App() {
     MaterialTheme {
         val storyTellerViewModel = getViewModel(Unit, viewModelFactory { StoryTellerViewModel() })
         val uiState by storyTellerViewModel.uiState.collectAsState()
+        val characters = getCharacters()
 
         when (val state = uiState) {
-            is StoryTellerUiState.Loading -> LoadingStoryScreen(state.uiDescription)
-            is StoryTellerUiState.Story -> StoryScreen(state.story) { storyTellerViewModel.reset() }
-            is StoryTellerUiState.Idle -> CharactersScreen { uiDescription, character ->
-                storyTellerViewModel.newStory(
-                    uiDescription,
-                    character
-                )
+            is StoryTellerUiState.LoadingStory -> LoadingStoryScreen(state.uiDescription)
+
+            is StoryTellerUiState.Story -> StoryScreen(
+                state.uiDescription,
+                state.story
+            ) { storyTellerViewModel.reset() }
+
+            is StoryTellerUiState.CharacterSelection -> CharacterSelectionScreen(
+                characters
+            ) { character ->
+                storyTellerViewModel.newStory(character)
             }
         }
     }
 }
+
+private fun getCharacters() = listOf(
+    Character("dog", "🐶"),
+    Character("cat", "🐱"),
+    Character("monkey", "🐵"),
+    Character("lion", "🦁"),
+    Character("duck", "🦆"),
+    Character("rabbit", "🐰"),
+    Character("cow", "🐮"),
+    Character("pig", "🐷"),
+    Character("horse", "🐴"),
+    Character("frog", "🐸"),
+)

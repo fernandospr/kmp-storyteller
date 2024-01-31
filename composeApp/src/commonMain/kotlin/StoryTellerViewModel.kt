@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 sealed class StoryTellerUiState {
-    data class Loading(val uiDescription: String) : StoryTellerUiState()
-    data object Idle : StoryTellerUiState()
-    data class Story(val story: String) : StoryTellerUiState()
+    data class LoadingStory(val uiDescription: String) : StoryTellerUiState()
+    data object CharacterSelection : StoryTellerUiState()
+    data class Story(val uiDescription: String, val story: String) : StoryTellerUiState()
 }
 
 class StoryTellerViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.Idle)
+    private val _uiState = MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.CharacterSelection)
     val uiState = _uiState.asStateFlow()
 
     private val httpClient = HttpClient {
@@ -31,16 +31,16 @@ class StoryTellerViewModel : ViewModel() {
         }
     }
 
-    fun newStory(uiDescription: String, character: String) {
+    fun newStory(character: Character) {
         viewModelScope.launch {
-            _uiState.value = StoryTellerUiState.Loading(uiDescription)
-            val story = getStory(character)
-            _uiState.value = StoryTellerUiState.Story(story)
+            _uiState.value = StoryTellerUiState.LoadingStory(character.uiDescription)
+            val story = getStory(character.name)
+            _uiState.value = StoryTellerUiState.Story(character.uiDescription, story)
         }
     }
 
     fun reset() {
-        _uiState.value = StoryTellerUiState.Idle
+        _uiState.value = StoryTellerUiState.CharacterSelection
     }
 
     private suspend fun getStory(character: String): String {

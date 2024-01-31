@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -42,8 +45,9 @@ fun LoadingStoryScreen(uiDescription: String) {
 }
 
 @Composable
-fun StoryScreen(story: String, onResetClick: () -> Unit) {
+fun StoryScreen(uiDescription: String, story: String, onResetClick: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = uiDescription, fontSize = 60.sp, modifier = Modifier.padding(30.dp))
         Text(
             text = story,
             fontSize = 30.sp,
@@ -62,29 +66,27 @@ fun StoryScreen(story: String, onResetClick: () -> Unit) {
 }
 
 @Composable
-fun CharactersScreen(onNewStoryClick: (uiDescription: String, character: String) -> Unit) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
-    ) {
-        Character(uiDescription = "🐶") {
-            onNewStoryClick("🐶", "dog")
+fun CharacterSelectionScreen(
+    characters: List<Character>,
+    onNewStoryClick: (character: Character) -> Unit
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = Modifier.fillMaxSize(),
+        content = {
+            items(characters) {
+                CharacterButton(it.uiDescription) {
+                    onNewStoryClick(it)
+                }
+            }
         }
-        Character(uiDescription = "🐱") {
-            onNewStoryClick("🐱", "cat")
-        }
-        Character(uiDescription = "🐵") {
-            onNewStoryClick("🐵", "monkey")
-        }
-        Character(uiDescription = "🦁") {
-            onNewStoryClick("🦁", "lion")
-        }
-    }
+    )
 }
 
 @Composable
-fun Character(
+fun CharacterButton(
     uiDescription: String,
     onClick: () -> Unit
 ) {
