@@ -19,10 +19,12 @@ sealed class StoryTellerUiState {
     data class LoadingStory(val uiDescription: String) : StoryTellerUiState()
     data object CharacterSelection : StoryTellerUiState()
     data class Story(val uiDescription: String, val story: String) : StoryTellerUiState()
+    data class ErrorLoadingStory(val uiDescription: String) : StoryTellerUiState()
 }
 
 class StoryTellerViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.CharacterSelection)
+    private val _uiState =
+        MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.CharacterSelection)
     val uiState = _uiState.asStateFlow()
 
     private val httpClient = HttpClient {
@@ -36,8 +38,12 @@ class StoryTellerViewModel : ViewModel() {
     fun newStory(promptPlaceholder: String, character: Character) {
         viewModelScope.launch {
             _uiState.value = StoryTellerUiState.LoadingStory(character.uiDescription)
-            val story = getStory(promptPlaceholder, character.name)
-            _uiState.value = StoryTellerUiState.Story(character.uiDescription, story)
+            try {
+                val story = getStory(promptPlaceholder, character.name)
+                _uiState.value = StoryTellerUiState.Story(character.uiDescription, story)
+            } catch (ex: Exception) {
+                _uiState.value = StoryTellerUiState.ErrorLoadingStory(character.uiDescription)
+            }
         }
     }
 

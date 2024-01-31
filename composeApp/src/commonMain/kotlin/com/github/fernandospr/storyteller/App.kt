@@ -29,6 +29,10 @@ fun App() {
             ) { character ->
                 storyTellerViewModel.newStory(prompt, character)
             }
+
+            is StoryTellerUiState.ErrorLoadingStory -> ErrorLoadingStoryScreen(state.uiDescription) {
+                storyTellerViewModel.reset()
+            }
         }
     }
 }

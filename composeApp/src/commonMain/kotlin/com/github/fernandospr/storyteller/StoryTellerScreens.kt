@@ -25,6 +25,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.icerock.moko.resources.compose.stringResource
+
+@Composable
+fun ErrorLoadingStoryScreen(
+    uiDescription: String,
+    onRetryClick: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(text = stringResource(MR.strings.error))
+        Text(text = uiDescription, fontSize = 100.sp)
+        OutlinedButton(
+            shape = CircleShape, modifier = Modifier.padding(8.dp), onClick = onRetryClick
+        ) {
+            Text(text = "🔄", fontSize = 60.sp, modifier = Modifier.padding(30.dp))
+        }
+    }
+}
 
 @Composable
 fun LoadingStoryScreen(uiDescription: String) {
@@ -38,8 +59,9 @@ fun LoadingStoryScreen(uiDescription: String) {
         )
     )
     Column(
-        Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
     )
     {
         Text(text = uiDescription, fontSize = 100.sp, modifier = Modifier.rotate(angle))
