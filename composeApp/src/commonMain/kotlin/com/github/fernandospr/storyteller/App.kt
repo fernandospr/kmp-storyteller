@@ -4,6 +4,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.github.fernandospr.storyteller.data.gemini.GeminiStoryTellerRepository
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import dev.icerock.moko.resources.compose.stringResource
@@ -11,7 +12,9 @@ import dev.icerock.moko.resources.compose.stringResource
 @Composable
 fun App() {
     MaterialTheme {
-        val storyTellerViewModel = getViewModel(Unit, viewModelFactory { StoryTellerViewModel() })
+        val storyTellerViewModel = getViewModel(Unit, viewModelFactory {
+            StoryTellerViewModel(GeminiStoryTellerRepository())
+        })
         val uiState by storyTellerViewModel.uiState.collectAsState()
         val characters = getCharacters()
         val prompt = stringResource(MR.strings.prompt)

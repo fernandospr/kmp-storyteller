@@ -1,19 +1,10 @@
 package com.github.fernandospr.storyteller
 
-import StoryTeller.composeApp.BuildConfig
+import com.github.fernandospr.storyteller.data.StoryTellerRepository
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 
 sealed class StoryTellerUiState {
     data class LoadingStory(val uiDescription: String) : StoryTellerUiState()
@@ -22,24 +13,16 @@ sealed class StoryTellerUiState {
     data class ErrorLoadingStory(val uiDescription: String) : StoryTellerUiState()
 }
 
-class StoryTellerViewModel : ViewModel() {
+class StoryTellerViewModel(private val repository: StoryTellerRepository) : ViewModel() {
     private val _uiState =
         MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.CharacterSelection)
     val uiState = _uiState.asStateFlow()
-
-    private val httpClient = HttpClient {
-        install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-            })
-        }
-    }
 
     fun newStory(promptPlaceholder: String, character: Character) {
         viewModelScope.launch {
             _uiState.value = StoryTellerUiState.LoadingStory(character.uiDescription)
             try {
-                val story = getStory(promptPlaceholder, character.name)
+                val story = repository.getStory(promptPlaceholder, character.name)
                 _uiState.value = StoryTellerUiState.Story(character.uiDescription, story)
             } catch (ex: Exception) {
                 _uiState.value = StoryTellerUiState.ErrorLoadingStory(character.uiDescription)
@@ -51,21 +34,7 @@ class StoryTellerViewModel : ViewModel() {
         _uiState.value = StoryTellerUiState.CharacterSelection
     }
 
-    private suspend fun getStory(promptPlaceholder: String, character: String): String {
-        val prompt = promptPlaceholder.replace("%s", character)
-
-        val response = httpClient.post(
-            "https://generativelanguage.googleapis.com" +
-                    "/v1beta/models/gemini-pro:generateContent?" +
-                    "key=${BuildConfig.GEMINI_API_KEY}"
-        ) {
-            setBody(AiRequest(listOf(Content(listOf(Part(prompt))))))
-            contentType(ContentType.Application.Json)
-        }.body<AiResponse>()
-        return response.candidates.first().content.parts.first().text
-    }
-
     override fun onCleared() {
-        httpClient.close()
+        repository.clear()
     }
 }

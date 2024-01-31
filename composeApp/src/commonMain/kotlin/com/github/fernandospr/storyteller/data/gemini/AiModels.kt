@@ -1,4 +1,4 @@
-package com.github.fernandospr.storyteller
+package com.github.fernandospr.storyteller.data.gemini
 
 import kotlinx.serialization.Serializable
 
