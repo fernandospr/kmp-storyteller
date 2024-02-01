@@ -7,6 +7,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +25,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.stringResource
@@ -49,22 +54,26 @@ fun ErrorLoadingStoryScreen(
 
 @Composable
 fun LoadingStoryScreen(uiDescription: String) {
-    val infiniteTransition = rememberInfiniteTransition()
-    val angle by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1500, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        )
+    val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 2f,
+        animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
+        label = "scale"
     )
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
-    )
+    Box(modifier = Modifier.fillMaxSize())
     {
-        Text(text = uiDescription, fontSize = 100.sp, modifier = Modifier.rotate(angle))
+        Text(text = uiDescription,
+            fontSize = 60.sp,
+            modifier = Modifier
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                    transformOrigin = TransformOrigin.Center
+                }
+                .align(Alignment.Center),
+            style = LocalTextStyle.current.copy(textMotion = TextMotion.Animated)
+        )
     }
 }
 
