@@ -13,7 +13,10 @@ sealed class StoryTellerUiState {
     data class ErrorLoadingStory(val uiDescription: String) : StoryTellerUiState()
 }
 
-class StoryTellerViewModel(private val repository: StoryTellerRepository) : ViewModel() {
+class StoryTellerViewModel(
+    private val repository: StoryTellerRepository,
+    private val textToSpeech: TextToSpeech
+) : ViewModel() {
     private val _uiState =
         MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.CharacterSelection)
     val uiState = _uiState.asStateFlow()
@@ -36,5 +39,9 @@ class StoryTellerViewModel(private val repository: StoryTellerRepository) : View
 
     override fun onCleared() {
         repository.clear()
+    }
+
+    fun speak(text: String) {
+        textToSpeech.speak(text)
     }
 }
