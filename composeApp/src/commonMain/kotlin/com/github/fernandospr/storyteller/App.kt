@@ -10,7 +10,7 @@ import dev.icerock.moko.mvvm.compose.viewModelFactory
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
-fun App() {
+fun App(speak: (String) -> Unit) {
     MaterialTheme {
         val prompt = stringResource(MR.strings.prompt)
         val storyTellerViewModel = getViewModel(Unit, viewModelFactory {
@@ -24,8 +24,10 @@ fun App() {
 
             is StoryTellerUiState.Story -> StoryScreen(
                 state.uiDescription,
-                state.story
-            ) { storyTellerViewModel.reset() }
+                state.story,
+                onPlayClick = { speak(it) },
+                onResetClick = storyTellerViewModel::reset
+            )
 
             is StoryTellerUiState.CharacterSelection -> CharacterSelectionScreen(
                 characters

@@ -18,18 +18,20 @@ fun LoadingStoryScreenPreview() {
 @Preview
 @Composable
 fun StoryScreenPreview() {
-    StoryScreen("🐶", "Once upon a time...", {})
+    StoryScreen("🐶", "Once upon a time...", { _ -> }, {})
 }
 
 @Preview
 @Composable
 fun CharacterSelectionScreenPreview() {
-    CharacterSelectionScreen(listOf(
-        Character("dog", "🐶"),
-        Character("cat", "🐱"),
-        Character("lion", "🦁"),
-        Character("monkey", "🐵"),
-    )) {}
+    CharacterSelectionScreen(
+        listOf(
+            Character("dog", "🐶"),
+            Character("cat", "🐱"),
+            Character("lion", "🦁"),
+            Character("monkey", "🐵"),
+        )
+    ) {}
 }
 
 @Preview

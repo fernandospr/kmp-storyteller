@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,6 +22,7 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalContext
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -78,7 +80,12 @@ fun LoadingStoryScreen(uiDescription: String) {
 }
 
 @Composable
-fun StoryScreen(uiDescription: String, story: String, onResetClick: () -> Unit) {
+fun StoryScreen(
+    uiDescription: String,
+    story: String,
+    onPlayClick: (story: String) -> Unit,
+    onResetClick: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = uiDescription, fontSize = 60.sp, modifier = Modifier.padding(30.dp))
         Text(
@@ -90,11 +97,19 @@ fun StoryScreen(uiDescription: String, story: String, onResetClick: () -> Unit) 
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         )
-        OutlinedButton(
-            shape = CircleShape, modifier = Modifier.padding(8.dp), onClick = onResetClick
-        ) {
-            Text(text = "🔄", fontSize = 60.sp, modifier = Modifier.padding(30.dp))
+        Row {
+            OutlinedButton(
+                shape = CircleShape, modifier = Modifier.padding(8.dp), onClick = { onPlayClick(story) }
+            ) {
+                Text(text = "▶️", fontSize = 60.sp, modifier = Modifier.padding(30.dp))
+            }
+            OutlinedButton(
+                shape = CircleShape, modifier = Modifier.padding(8.dp), onClick = onResetClick
+            ) {
+                Text(text = "🔄", fontSize = 60.sp, modifier = Modifier.padding(30.dp))
+            }
         }
+
     }
 }
 
