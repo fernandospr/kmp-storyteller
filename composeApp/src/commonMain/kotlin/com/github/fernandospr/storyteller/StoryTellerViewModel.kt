@@ -34,14 +34,20 @@ class StoryTellerViewModel(
     }
 
     fun reset() {
+        stopSpeaking()
         _uiState.value = StoryTellerUiState.CharacterSelection
     }
 
     override fun onCleared() {
+        stopSpeaking()
         repository.clear()
     }
 
-    fun speak(text: String) {
-        textToSpeech.speak(text)
+    fun speak(text: String, onComplete: () -> Unit) {
+        textToSpeech.speak(text, onComplete)
+    }
+
+    fun stopSpeaking() {
+        textToSpeech.stopSpeaking()
     }
 }

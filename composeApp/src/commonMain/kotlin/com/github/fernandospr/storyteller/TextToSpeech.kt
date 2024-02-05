@@ -1,6 +1,6 @@
 package com.github.fernandospr.storyteller
 
 expect class TextToSpeech {
-    fun speak(text: String)
+    fun speak(text: String, onComplete: () -> Unit)
     fun stopSpeaking()
 }

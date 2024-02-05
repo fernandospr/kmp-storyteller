@@ -4,6 +4,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import com.github.fernandospr.storyteller.data.gemini.GeminiStoryTellerRepository
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
@@ -19,15 +22,27 @@ fun App(textToSpeech: TextToSpeech) {
         val uiState by storyTellerViewModel.uiState.collectAsState()
         val characters = getCharacters()
 
+
         when (val state = uiState) {
             is StoryTellerUiState.LoadingStory -> LoadingStoryScreen(state.uiDescription)
 
-            is StoryTellerUiState.Story -> StoryScreen(
-                state.uiDescription,
-                state.story,
-                onPlayClick = { storyTellerViewModel.speak(it) },
-                onResetClick = storyTellerViewModel::reset
-            )
+            is StoryTellerUiState.Story -> {
+                var isPlaying by rememberSaveable { mutableStateOf(false) }
+                StoryScreen(
+                    state.uiDescription,
+                    state.story,
+                    isPlaying = isPlaying,
+                    onPlayClick = {
+                        storyTellerViewModel.speak(it) { isPlaying = false }
+                        isPlaying = true
+                    },
+                    onStopClick = {
+                        storyTellerViewModel.stopSpeaking()
+                        isPlaying = false
+                    },
+                    onResetClick = { storyTellerViewModel.reset() }
+                )
+            }
 
             is StoryTellerUiState.CharacterSelection -> CharacterSelectionScreen(
                 characters

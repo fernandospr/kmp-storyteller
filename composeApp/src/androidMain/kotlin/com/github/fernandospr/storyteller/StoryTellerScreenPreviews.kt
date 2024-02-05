@@ -18,7 +18,7 @@ fun LoadingStoryScreenPreview() {
 @Preview
 @Composable
 fun StoryScreenPreview() {
-    StoryScreen("🐶", "Once upon a time...", { _ -> }, {})
+    StoryScreen("🐶", "Once upon a time...", isPlaying = false, { _ -> }, {}, {})
 }
 
 @Preview

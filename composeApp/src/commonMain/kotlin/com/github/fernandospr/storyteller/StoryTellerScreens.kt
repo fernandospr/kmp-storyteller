@@ -1,6 +1,5 @@
 package com.github.fernandospr.storyteller
 
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -22,11 +21,9 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalContext
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextMotion
@@ -83,7 +80,9 @@ fun LoadingStoryScreen(uiDescription: String) {
 fun StoryScreen(
     uiDescription: String,
     story: String,
+    isPlaying: Boolean,
     onPlayClick: (story: String) -> Unit,
+    onStopClick: () -> Unit,
     onResetClick: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -99,9 +98,19 @@ fun StoryScreen(
         )
         Row {
             OutlinedButton(
-                shape = CircleShape, modifier = Modifier.padding(8.dp), onClick = { onPlayClick(story) }
+                shape = CircleShape, modifier = Modifier.padding(8.dp), onClick = {
+                    if (isPlaying) {
+                        onStopClick()
+                    } else {
+                        onPlayClick(story)
+                    }
+                }
             ) {
-                Text(text = "▶️", fontSize = 60.sp, modifier = Modifier.padding(30.dp))
+                Text(
+                    text = if (isPlaying) "⏹️" else "▶️",
+                    fontSize = 60.sp,
+                    modifier = Modifier.padding(30.dp)
+                )
             }
             OutlinedButton(
                 shape = CircleShape, modifier = Modifier.padding(8.dp), onClick = onResetClick
