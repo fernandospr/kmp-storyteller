@@ -10,7 +10,7 @@ sealed class StoryTellerUiState {
     data class LoadingStory(val uiDescription: String) : StoryTellerUiState()
     data object CharacterSelection : StoryTellerUiState()
     data class Story(val uiDescription: String, val story: String) : StoryTellerUiState()
-    data class ErrorLoadingStory(val uiDescription: String) : StoryTellerUiState()
+    data class ErrorLoadingStory(val character: Character) : StoryTellerUiState()
 }
 
 class StoryTellerViewModel(
@@ -28,7 +28,7 @@ class StoryTellerViewModel(
                 val story = repository.getStory(character.name)
                 _uiState.value = StoryTellerUiState.Story(character.uiDescription, story)
             } catch (ex: Exception) {
-                _uiState.value = StoryTellerUiState.ErrorLoadingStory(character.uiDescription)
+                _uiState.value = StoryTellerUiState.ErrorLoadingStory(character)
             }
         }
     }

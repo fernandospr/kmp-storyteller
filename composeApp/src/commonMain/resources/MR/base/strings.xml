@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="prompt">Write a bedtime story of less than 100 words for children with a %s, it should start with Once upon a time</string>
-    <string name="error">Oh! Error loading the story</string>
+    <string name="error">Oops! There was an error loading the story\n😅</string>
 
     <string name="dog_name">dog</string>
     <string name="cat_name">cat</string>

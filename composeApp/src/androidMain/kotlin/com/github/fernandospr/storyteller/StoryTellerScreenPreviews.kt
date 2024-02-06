@@ -6,7 +6,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview
 @Composable
 fun ErrorLoadingStoryScreenPreview() {
-    ErrorLoadingStoryScreen("🐶", {})
+    ErrorLoadingStoryScreen("🐶", {}, {})
 }
 
 @Preview

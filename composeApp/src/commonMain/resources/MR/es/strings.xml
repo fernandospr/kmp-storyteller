@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="prompt">Escribe un cuento de niños para ir a dormir de menos de 100 palabras con un %s, debería comenzar con Había una vez y terminar con Y colorín colorado este cuento se ha acabado</string>
-    <string name="error">¡Ups! Hubo un error cargando el cuento</string>
+    <string name="error">¡Ups! Hubo un error cargando el cuento\n😅</string>
 
     <string name="dog_name">perro</string>
     <string name="cat_name">gato</string>

@@ -50,9 +50,11 @@ fun App(textToSpeech: TextToSpeech) {
                 storyTellerViewModel.newStory(character)
             }
 
-            is StoryTellerUiState.ErrorLoadingStory -> ErrorLoadingStoryScreen(state.uiDescription) {
-                storyTellerViewModel.reset()
-            }
+            is StoryTellerUiState.ErrorLoadingStory -> ErrorLoadingStoryScreen(
+                state.character.uiDescription,
+                onBackClick = storyTellerViewModel::reset,
+                onRetryClick = { storyTellerViewModel.newStory(state.character) }
+            )
         }
     }
 }
