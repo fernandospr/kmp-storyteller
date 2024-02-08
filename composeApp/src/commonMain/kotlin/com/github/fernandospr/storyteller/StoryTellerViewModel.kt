@@ -22,6 +22,7 @@ class StoryTellerViewModel(
     val uiState = _uiState.asStateFlow()
 
     fun newStory(character: Character) {
+        textToSpeech.speak(character.name) {}
         viewModelScope.launch {
             _uiState.value = StoryTellerUiState.LoadingStory(character.uiDescription)
             try {
