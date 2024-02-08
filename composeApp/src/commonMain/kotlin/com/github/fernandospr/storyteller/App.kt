@@ -8,6 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.github.fernandospr.storyteller.data.gemini.GeminiStoryTellerRepository
+import com.github.fernandospr.storyteller.screens.CharacterSelectionScreen
+import com.github.fernandospr.storyteller.screens.ErrorLoadingStoryScreen
+import com.github.fernandospr.storyteller.screens.LoadingStoryScreen
+import com.github.fernandospr.storyteller.screens.StoryScreen
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import dev.icerock.moko.resources.compose.stringResource
