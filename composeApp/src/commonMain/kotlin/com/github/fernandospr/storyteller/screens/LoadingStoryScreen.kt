@@ -20,7 +20,12 @@ import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun LoadingStoryScreen(uiDescription: String) {
+fun LoadingStoryScreen(
+    uiDescription: String,
+    onBackClick: () -> Unit
+) {
+    BackHandler { onBackClick() }
+
     val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,

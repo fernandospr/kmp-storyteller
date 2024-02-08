@@ -28,7 +28,10 @@ fun App(textToSpeech: TextToSpeech) {
 
 
         when (val state = uiState) {
-            is StoryTellerUiState.LoadingStory -> LoadingStoryScreen(state.uiDescription)
+            is StoryTellerUiState.LoadingStory -> LoadingStoryScreen(
+                state.uiDescription,
+                onBackClick = storyTellerViewModel::reset
+            )
 
             is StoryTellerUiState.Story -> {
                 var isPlaying by rememberSaveable { mutableStateOf(false) }
@@ -44,7 +47,7 @@ fun App(textToSpeech: TextToSpeech) {
                         storyTellerViewModel.stopSpeaking()
                         isPlaying = false
                     },
-                    onResetClick = { storyTellerViewModel.reset() }
+                    onBackClick = storyTellerViewModel::reset
                 )
             }
 

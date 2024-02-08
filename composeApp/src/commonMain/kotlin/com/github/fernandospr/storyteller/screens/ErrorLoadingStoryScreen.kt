@@ -38,6 +38,8 @@ fun ErrorLoadingStoryScreen(
     onBackClick: () -> Unit,
     onRetryClick: () -> Unit
 ) {
+    BackHandler { onBackClick() }
+
     Scaffold(
         topBar = {
             TopAppBar(

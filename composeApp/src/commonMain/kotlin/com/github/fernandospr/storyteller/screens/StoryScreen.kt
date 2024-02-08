@@ -35,8 +35,10 @@ fun StoryScreen(
     isPlaying: Boolean,
     onPlayClick: (story: String) -> Unit,
     onStopClick: () -> Unit,
-    onResetClick: () -> Unit
+    onBackClick: () -> Unit
 ) {
+    BackHandler { onBackClick() }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -56,7 +58,7 @@ fun StoryScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = onResetClick) {
+                    IconButton(onClick = onBackClick) {
                         Icon(Icons.Filled.ArrowBack, "back")
                     }
                 },

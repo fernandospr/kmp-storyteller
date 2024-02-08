@@ -2,6 +2,8 @@ package com.github.fernandospr.storyteller
 
 import com.github.fernandospr.storyteller.data.StoryTellerRepository
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -21,27 +23,27 @@ class StoryTellerViewModel(
         MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.CharacterSelection)
     val uiState = _uiState.asStateFlow()
 
+    private var newStoryJob: Job? = null
+
     fun newStory(character: Character) {
         textToSpeech.speak(character.name) {}
-        viewModelScope.launch {
+        newStoryJob = viewModelScope.launch {
             _uiState.value = StoryTellerUiState.LoadingStory(character.uiDescription)
             try {
                 val story = repository.getStory(character.name)
                 _uiState.value = StoryTellerUiState.Story(character.uiDescription, story)
             } catch (ex: Exception) {
-                _uiState.value = StoryTellerUiState.ErrorLoadingStory(character)
+                if (ex !is CancellationException) {
+                    _uiState.value = StoryTellerUiState.ErrorLoadingStory(character)
+                }
             }
         }
     }
 
     fun reset() {
+        newStoryJob?.cancel()
         stopSpeaking()
         _uiState.value = StoryTellerUiState.CharacterSelection
-    }
-
-    override fun onCleared() {
-        stopSpeaking()
-        repository.clear()
     }
 
     fun speak(text: String, onComplete: () -> Unit) {
@@ -50,5 +52,10 @@ class StoryTellerViewModel(
 
     fun stopSpeaking() {
         textToSpeech.stopSpeaking()
+    }
+
+    override fun onCleared() {
+        stopSpeaking()
+        repository.clear()
     }
 }
