@@ -9,15 +9,17 @@ import platform.darwin.NSObject
 
 actual class TextToSpeech {
 
-    private val voice = AVSpeechSynthesisVoice()
+    private val synthesisVoice = AVSpeechSynthesisVoice()
     private val synthesizerDelegate = AVSpeechSynthesizerDelegate {}
     private val synthesizer = AVSpeechSynthesizer().apply { delegate = synthesizerDelegate }
 
     actual fun speak(text: String, onComplete: () -> Unit) {
-        val utterance = AVSpeechUtterance(string = text)
-        utterance.voice = voice
-        synthesizer.speakUtterance(utterance)
+        val utterance = AVSpeechUtterance(string = text).apply {
+            rate = 0.35f
+            voice = synthesisVoice
+        }
         synthesizerDelegate.onComplete = onComplete
+        synthesizer.speakUtterance(utterance)
     }
 
     actual fun stopSpeaking() {
