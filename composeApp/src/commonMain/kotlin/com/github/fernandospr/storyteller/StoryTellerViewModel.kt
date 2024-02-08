@@ -56,6 +56,7 @@ class StoryTellerViewModel(
 
     override fun onCleared() {
         stopSpeaking()
+        textToSpeech.shutdown()
         repository.clear()
     }
 }

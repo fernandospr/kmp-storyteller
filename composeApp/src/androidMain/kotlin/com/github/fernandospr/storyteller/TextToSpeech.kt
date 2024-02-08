@@ -34,4 +34,8 @@ actual class TextToSpeech(context: Context) : TextToSpeech.OnInitListener {
     actual fun stopSpeaking() {
         textToSpeechSystem.stop()
     }
+
+    actual fun shutdown() {
+        textToSpeechSystem.shutdown()
+    }
 }

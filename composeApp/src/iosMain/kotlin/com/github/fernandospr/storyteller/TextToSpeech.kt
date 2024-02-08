@@ -25,6 +25,10 @@ actual class TextToSpeech {
     actual fun stopSpeaking() {
         synthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.AVSpeechBoundaryImmediate)
     }
+
+    actual fun shutdown() {
+        // no-op
+    }
 }
 
 class AVSpeechSynthesizerDelegate(
