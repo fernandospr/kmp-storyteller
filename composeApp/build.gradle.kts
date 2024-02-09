@@ -109,6 +109,8 @@ android {
 }
 
 buildConfig {
+    packageName("com.github.fernandospr.storyteller")
+
     val properties = Properties()
     properties.load(project.rootProject.file("local.properties").reader())
     val geminiApiKey = properties.getProperty("gemini.api_key")

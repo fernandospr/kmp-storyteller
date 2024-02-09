@@ -1,6 +1,6 @@
 package com.github.fernandospr.storyteller.data.gemini
 
-import StoryTeller.composeApp.BuildConfig
+import com.github.fernandospr.storyteller.BuildConfig
 import com.github.fernandospr.storyteller.data.StoryTellerRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
