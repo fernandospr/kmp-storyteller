@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -24,9 +25,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import com.github.fernandospr.storyteller.MR
+import dev.icerock.moko.resources.compose.fontFamilyResource
 
 @Composable
 fun StoryScreen(
@@ -86,6 +91,10 @@ fun StoryScreen(
     ) {
         Text(
             text = story,
+            fontFamily = fontFamilyResource(MR.fonts.Alegreya.regular),
+            style = LocalTextStyle.current.merge(
+                TextStyle(lineHeight = 1.5.em)
+            ),
             fontSize = 30.sp,
             modifier = Modifier
                 .fillMaxSize()
