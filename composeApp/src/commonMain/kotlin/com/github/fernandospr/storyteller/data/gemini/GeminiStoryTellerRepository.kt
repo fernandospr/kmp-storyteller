@@ -34,8 +34,4 @@ class GeminiStoryTellerRepository(private val promptPlaceholder: String) : Story
         }.body<AiResponse>()
         return response.candidates.first().content.parts.first().text
     }
-
-    override fun clear() {
-        httpClient.close()
-    }
 }
