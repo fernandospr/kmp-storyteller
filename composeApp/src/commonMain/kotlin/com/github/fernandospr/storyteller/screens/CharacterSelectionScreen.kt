@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.github.fernandospr.storyteller.Character
+import com.github.fernandospr.storyteller.data.Character
 
 @Composable
 fun CharacterSelectionScreen(

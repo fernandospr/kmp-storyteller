@@ -1,5 +1,6 @@
 package com.github.fernandospr.storyteller
 
+import com.github.fernandospr.storyteller.data.Character
 import com.github.fernandospr.storyteller.data.StoryTellerRepository
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.CancellationException

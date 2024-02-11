@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import com.github.fernandospr.storyteller.data.CharacterRepository
 import com.github.fernandospr.storyteller.data.gemini.GeminiStoryTellerRepository
 import com.github.fernandospr.storyteller.screens.CharacterSelectionScreen
 import com.github.fernandospr.storyteller.screens.ErrorLoadingStoryScreen
@@ -18,13 +19,13 @@ import dev.icerock.moko.mvvm.compose.viewModelFactory
 import dev.icerock.moko.resources.compose.stringResource
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
-import moe.tlaster.precompose.navigation.query
+import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
 
 @Composable
 fun App(textToSpeech: TextToSpeech) {
     val storyTellerRepository = GeminiStoryTellerRepository(stringResource(MR.strings.prompt))
-    val characters = getCharacters()
+    val characterRepository = CharacterRepository()
 
     PreComposeApp {
         val navigator = rememberNavigator()
@@ -36,15 +37,14 @@ fun App(textToSpeech: TextToSpeech) {
             ) {
                 scene("/character-selection") {
                     CharacterSelectionScreen(
-                        characters
+                        characterRepository.getAllCharacters()
                     ) { character ->
-                        navigator.navigate("/story/character?name=${character.name}&uiDescription=${character.uiDescription}")
+                        navigator.navigate("/story/${character.name}")
                     }
                 }
-                scene("/story/{character}") { backStackEntry ->
-                    val name = backStackEntry.query<String>("name").orEmpty()
-                    val uiDescription = backStackEntry.query<String>("uiDescription").orEmpty()
-                    val character = Character(name, uiDescription)
+                scene("/story/{characterName}") { backStackEntry ->
+                    val name = checkNotNull(backStackEntry.path<String>("characterName"))
+                    val character = characterRepository.getCharacter(name)
 
                     val storyTellerViewModel = getViewModel(Unit, viewModelFactory {
                         StoryTellerViewModel(character, storyTellerRepository, textToSpeech)
@@ -90,17 +90,3 @@ fun App(textToSpeech: TextToSpeech) {
         }
     }
 }
-
-@Composable
-private fun getCharacters() = listOf(
-    Character(name = stringResource(MR.strings.dog_name), uiDescription = "🐶"),
-    Character(name = stringResource(MR.strings.cat_name), uiDescription = "🐱"),
-    Character(name = stringResource(MR.strings.monkey_name), uiDescription = "🐵"),
-    Character(name = stringResource(MR.strings.lion_name), uiDescription = "🦁"),
-    Character(name = stringResource(MR.strings.duck_name), uiDescription = "🦆"),
-    Character(name = stringResource(MR.strings.rabbit_name), uiDescription = "🐰"),
-    Character(name = stringResource(MR.strings.cow_name), uiDescription = "🐮"),
-    Character(name = stringResource(MR.strings.pig_name), uiDescription = "🐷"),
-    Character(name = stringResource(MR.strings.horse_name), uiDescription = "🐴"),
-    Character(name = stringResource(MR.strings.frog_name), uiDescription = "🐸"),
-)
