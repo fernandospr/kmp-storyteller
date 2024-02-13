@@ -1,5 +1,6 @@
 package com.github.fernandospr.storyteller.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,6 +37,7 @@ import dev.icerock.moko.resources.compose.fontFamilyResource
 @Composable
 fun StoryScreen(
     uiDescription: String,
+    backgroundColor: Color,
     story: String,
     isPlaying: Boolean,
     onPlayClick: (story: String) -> Unit,
@@ -99,6 +101,7 @@ fun StoryScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
+                .background(backgroundColor)
                 .padding(16.dp)
         )
     }
