@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 sealed class StoryTellerUiState {
-    data class LoadingStory(val uiDescription: String) : StoryTellerUiState()
-    data class Story(val uiDescription: String, val story: String) : StoryTellerUiState()
-    data class ErrorLoadingStory(val character: Character) : StoryTellerUiState()
+    data object LoadingStory : StoryTellerUiState()
+    data class Story(val story: String) : StoryTellerUiState()
+    data object ErrorLoadingStory : StoryTellerUiState()
 }
 
 class StoryTellerViewModel(
@@ -20,19 +20,19 @@ class StoryTellerViewModel(
     private val textToSpeech: TextToSpeech
 ) : ViewModel() {
     private val _uiState =
-        MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.LoadingStory(character.uiDescription))
+        MutableStateFlow<StoryTellerUiState>(StoryTellerUiState.LoadingStory)
     val uiState = _uiState.asStateFlow()
 
     fun newStory() {
         textToSpeech.speak(character.name) {}
-        _uiState.value = StoryTellerUiState.LoadingStory(character.uiDescription)
+        _uiState.value = StoryTellerUiState.LoadingStory
         viewModelScope.launch {
             try {
                 val story = repository.getStory(character.name)
-                _uiState.value = StoryTellerUiState.Story(character.uiDescription, story)
+                _uiState.value = StoryTellerUiState.Story(story)
             } catch (ex: Exception) {
                 if (ex !is CancellationException) {
-                    _uiState.value = StoryTellerUiState.ErrorLoadingStory(character)
+                    _uiState.value = StoryTellerUiState.ErrorLoadingStory
                 }
             }
         }

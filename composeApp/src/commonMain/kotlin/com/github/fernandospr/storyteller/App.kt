@@ -57,12 +57,12 @@ fun App(textToSpeech: TextToSpeech) {
 
                     when (val state = uiState) {
                         is StoryTellerUiState.LoadingStory -> LoadingStoryScreen(
-                            state.uiDescription,
+                            character.uiDescription,
                             onBackClick = navigator::popBackStack
                         )
 
                         is StoryTellerUiState.ErrorLoadingStory -> ErrorLoadingStoryScreen(
-                            state.character.uiDescription,
+                            character.uiDescription,
                             onBackClick = navigator::popBackStack,
                             onRetryClick = storyTellerViewModel::newStory
                         )
@@ -70,7 +70,8 @@ fun App(textToSpeech: TextToSpeech) {
                         is StoryTellerUiState.Story -> {
                             var isPlaying by rememberSaveable { mutableStateOf(false) }
                             StoryScreen(
-                                state.uiDescription,
+                                character.uiDescription,
+                                character.backgroundColor,
                                 state.story,
                                 isPlaying = isPlaying,
                                 onPlayClick = {
