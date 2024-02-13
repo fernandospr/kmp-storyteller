@@ -1,5 +1,6 @@
 package com.github.fernandospr.storyteller
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -55,35 +56,37 @@ fun App(textToSpeech: TextToSpeech) {
                         storyTellerViewModel.newStory()
                     }
 
-                    when (val state = uiState) {
-                        is StoryTellerUiState.LoadingStory -> LoadingStoryScreen(
-                            character.uiDescription,
-                            onBackClick = navigator::popBackStack
-                        )
-
-                        is StoryTellerUiState.ErrorLoadingStory -> ErrorLoadingStoryScreen(
-                            character.uiDescription,
-                            onBackClick = navigator::popBackStack,
-                            onRetryClick = storyTellerViewModel::newStory
-                        )
-
-                        is StoryTellerUiState.Story -> {
-                            var isPlaying by rememberSaveable { mutableStateOf(false) }
-                            StoryScreen(
+                    AnimatedContent(targetState = uiState) { targetState ->
+                        when (targetState) {
+                            is StoryTellerUiState.LoadingStory -> LoadingStoryScreen(
                                 character.uiDescription,
-                                character.backgroundColor,
-                                state.story,
-                                isPlaying = isPlaying,
-                                onPlayClick = {
-                                    storyTellerViewModel.speak(it) { isPlaying = false }
-                                    isPlaying = true
-                                },
-                                onStopClick = {
-                                    storyTellerViewModel.stopSpeaking()
-                                    isPlaying = false
-                                },
                                 onBackClick = navigator::popBackStack
                             )
+
+                            is StoryTellerUiState.ErrorLoadingStory -> ErrorLoadingStoryScreen(
+                                character.uiDescription,
+                                onBackClick = navigator::popBackStack,
+                                onRetryClick = storyTellerViewModel::newStory
+                            )
+
+                            is StoryTellerUiState.Story -> {
+                                var isPlaying by rememberSaveable { mutableStateOf(false) }
+                                StoryScreen(
+                                    character.uiDescription,
+                                    character.backgroundColor,
+                                    targetState.story,
+                                    isPlaying = isPlaying,
+                                    onPlayClick = {
+                                        storyTellerViewModel.speak(it) { isPlaying = false }
+                                        isPlaying = true
+                                    },
+                                    onStopClick = {
+                                        storyTellerViewModel.stopSpeaking()
+                                        isPlaying = false
+                                    },
+                                    onBackClick = navigator::popBackStack
+                                )
+                            }
                         }
                     }
                 }
