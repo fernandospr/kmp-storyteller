@@ -1,4 +1,6 @@
-![StoryTeller](https://github.com/fernandospr/kmp-storyteller/assets/4404680/14cdb51f-5c31-4123-a266-a6c7e5db91d3)
+<p align="center">
+  <img src="https://github.com/fernandospr/kmp-storyteller/assets/4404680/721d9485-3291-45df-af12-48aa2aabc766" alt="animated" />
+</p>
 
 # Kotlin Multiplatform Story Teller App
 
