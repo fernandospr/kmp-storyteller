@@ -1,6 +1,6 @@
 # Kotlin Multiplatform Story Teller App
 
-Choose a character and Gemini AI will generate a bedtime story for you.
+Choose a character 🐶🐱 and Gemini AI will generate a bedtime story for you.
 
 ### Showcase (sound on!)
 https://github.com/fernandospr/kmp-storyteller/assets/4404680/7f6e3e9f-bbf5-48d5-b688-42383d5bb1e3
