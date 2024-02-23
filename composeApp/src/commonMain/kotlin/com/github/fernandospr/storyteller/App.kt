@@ -17,15 +17,19 @@ import com.github.fernandospr.storyteller.screens.LoadingStoryScreen
 import com.github.fernandospr.storyteller.screens.StoryScreen
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
-import dev.icerock.moko.resources.compose.stringResource
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import storyteller.composeapp.generated.resources.Res
+import storyteller.composeapp.generated.resources.prompt
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App(textToSpeech: TextToSpeech) {
-    val storyTellerRepository = GeminiStoryTellerRepository(stringResource(MR.strings.prompt))
+    val storyTellerRepository = GeminiStoryTellerRepository(stringResource(Res.string.prompt))
     val characterRepository = CharacterRepository()
 
     PreComposeApp {

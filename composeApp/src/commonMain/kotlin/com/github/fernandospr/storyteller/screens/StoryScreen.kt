@@ -27,13 +27,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import com.github.fernandospr.storyteller.MR
-import dev.icerock.moko.resources.compose.fontFamilyResource
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.Font
+import storyteller.composeapp.generated.resources.Alegreya_Regular
+import storyteller.composeapp.generated.resources.Res
 
+
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun StoryScreen(
     uiDescription: String,
@@ -93,7 +98,7 @@ fun StoryScreen(
     ) {
         Text(
             text = story,
-            fontFamily = fontFamilyResource(MR.fonts.Alegreya.regular),
+            fontFamily = FontFamily(Font(Res.font.Alegreya_Regular)),
             style = LocalTextStyle.current.merge(
                 TextStyle(lineHeight = 1.5.em)
             ),
