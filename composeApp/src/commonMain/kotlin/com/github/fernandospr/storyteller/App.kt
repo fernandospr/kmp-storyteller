@@ -9,14 +9,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.fernandospr.storyteller.data.CharacterRepository
 import com.github.fernandospr.storyteller.data.gemini.GeminiStoryTellerRepository
 import com.github.fernandospr.storyteller.screens.CharacterSelectionScreen
 import com.github.fernandospr.storyteller.screens.ErrorLoadingStoryScreen
 import com.github.fernandospr.storyteller.screens.LoadingStoryScreen
 import com.github.fernandospr.storyteller.screens.StoryScreen
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.path
@@ -51,9 +50,9 @@ fun App(textToSpeech: TextToSpeech) {
                     val name = checkNotNull(backStackEntry.path<String>("characterName"))
                     val character = characterRepository.getCharacter(name)
 
-                    val storyTellerViewModel = getViewModel(Unit, viewModelFactory {
+                    val storyTellerViewModel = viewModel<StoryTellerViewModel>(key = name) {
                         StoryTellerViewModel(character, storyTellerRepository, textToSpeech)
-                    })
+                    }
                     val uiState by storyTellerViewModel.uiState.collectAsState()
 
                     LaunchedEffect(Unit) {
@@ -88,7 +87,11 @@ fun App(textToSpeech: TextToSpeech) {
                                         storyTellerViewModel.stopSpeaking()
                                         isPlaying = false
                                     },
-                                    onBackClick = navigator::popBackStack
+                                    onBackClick = {
+                                        storyTellerViewModel.stopSpeaking()
+                                        isPlaying = false
+                                        navigator.popBackStack()
+                                    }
                                 )
                             }
                         }

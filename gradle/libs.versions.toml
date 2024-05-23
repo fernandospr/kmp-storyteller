@@ -9,7 +9,7 @@ androidx-activityCompose = "1.8.2"
 jetpack-compose-bom = "2024.02.01"
 kotlin = "1.9.21"
 ktor = "2.3.8"
-moko-mvvm = "0.16.1"
+lifecycleViewModel = "2.8.0"
 gradle-buildconfig-plugin = "5.3.5"
 precompose = "1.5.10"
 androidxCoreSplashscreen = "1.0.1"
@@ -25,8 +25,8 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-moko-mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "moko-mvvm" }
-moko-mvvm-compose = { module = "dev.icerock.moko:mvvm-compose", version.ref = "moko-mvvm" }
+lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewModel"}
+lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewModel"}
 precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 

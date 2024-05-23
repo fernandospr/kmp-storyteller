@@ -30,7 +30,7 @@ The app uses the following multiplatform dependencies in its implementation:
 * [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) for UI
 * [Ktor](https://ktor.io/) for networking with [Gemini API](https://ai.google.dev/docs/gemini_api_overview)
 * [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) for JSON handling
-* [moko-mvvm](https://github.com/icerockdev/moko-mvvm) to store and manage UI-related data
+* [Compose ViewModel](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-viewmodel.html) to store and manage UI-related data
 * [gradle-buildconfig-plugin](https://github.com/gmazzo/gradle-buildconfig-plugin) to expose the Gemini API Key as a constant from `local.properties`
 * [PreCompose](https://github.com/Tlaster/PreCompose) for navigation between screens
 

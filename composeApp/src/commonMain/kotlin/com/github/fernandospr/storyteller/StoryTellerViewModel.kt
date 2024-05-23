@@ -1,8 +1,9 @@
 package com.github.fernandospr.storyteller
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.fernandospr.storyteller.data.Character
 import com.github.fernandospr.storyteller.data.StoryTellerRepository
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

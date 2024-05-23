@@ -57,8 +57,8 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
 
-            implementation(libs.moko.mvvm.core)
-            implementation(libs.moko.mvvm.compose)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel.compose)
 
             implementation(libs.precompose)
         }
