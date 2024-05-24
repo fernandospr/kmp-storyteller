@@ -32,7 +32,7 @@ The app uses the following multiplatform dependencies in its implementation:
 * [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) for JSON handling
 * [Compose ViewModel](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-viewmodel.html) to store and manage UI-related data
 * [gradle-buildconfig-plugin](https://github.com/gmazzo/gradle-buildconfig-plugin) to expose the Gemini API Key as a constant from `local.properties`
-* [PreCompose](https://github.com/Tlaster/PreCompose) for navigation between screens
+* [Compose Navigation](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html) for navigation between screens
 
 To synthesize speech from the story text, it uses:
 * [TextToSpeech](https://developer.android.com/reference/android/speech/tts/TextToSpeech) for Android

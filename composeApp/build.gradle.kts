@@ -60,7 +60,7 @@ kotlin {
             implementation(libs.lifecycle.viewmodel)
             implementation(libs.lifecycle.viewmodel.compose)
 
-            implementation(libs.precompose)
+            implementation(libs.navigation.compose)
         }
     }
 }
