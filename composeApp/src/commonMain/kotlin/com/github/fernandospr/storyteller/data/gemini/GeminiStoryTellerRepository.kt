@@ -24,14 +24,18 @@ class GeminiStoryTellerRepository(private val promptPlaceholder: String) : Story
     override suspend fun getStory(character: String): String {
         val prompt = promptPlaceholder.replace("%s", character)
 
-        val response = httpClient.post(
-            "https://generativelanguage.googleapis.com" +
-                    "/v1beta/models/gemini-pro:generateContent?" +
-                    "key=${BuildConfig.GEMINI_API_KEY}"
-        ) {
+        val response = httpClient.post(generateContentUrlString) {
             setBody(AiRequest(listOf(Content(listOf(Part(prompt))))))
             contentType(ContentType.Application.Json)
         }.body<AiResponse>()
         return response.candidates.first().content.parts.first().text
+    }
+
+    private companion object {
+        val model = "gemini-1.5-flash-latest"
+        val generateContentUrlString =
+            "https://generativelanguage.googleapis.com" +
+                    "/v1beta/models/$model:generateContent?" +
+                    "key=${BuildConfig.GEMINI_API_KEY}"
     }
 }
